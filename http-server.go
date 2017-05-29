@@ -11,8 +11,8 @@ func main() {
 }
 
 type Mock struct {
-  status bool
-  property map[string]int
+  Status bool `json:"status"`
+  Property map[string]int `json:"property"`
 }
 
 func res(w http.ResponseWriter, r *http.Request) {
