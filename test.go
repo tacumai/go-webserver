@@ -6,23 +6,23 @@ import (
 )
 
 func main() {
-  http.HandleFunc("/", res)
+  http.HandleFunc("/hoge", hoge)
   http.ListenAndServeTLS(":9999", "ssl/development/myself.crt", "ssl/development/myself.key", nil)
 }
 
-type Mock struct {
-  status bool
-  property map[string]int
+type Profile struct {
+  Name    string
+  Hobbies []string
 }
 
-func res(w http.ResponseWriter, r *http.Request) {
-  mock := Mock{ true, map[string]int{"ver": 004, "age": 40, "sex": 1 }}
-  result, err := json.Marshal(mock)
+func hoge(w http.ResponseWriter, r *http.Request) {
+  profile := Profile{"Alex", []string{"snowboarding", "programming"}}
+  js, err := json.Marshal(profile)
   if err != nil {
     http.Error(w, err.Error(), http.StatusInternalServerError)
     return
   }
   w.Header().Set("Content-Type", "application/json")
   w.WriteHeader(200)
-  w.Write(result)
+  w.Write(js)
 }
